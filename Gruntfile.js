@@ -8,9 +8,11 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['public/client/**/*.js'],
-        dest: 'dist/build.js',
+        dest: 'public/dist/build.js',
       },
     },
+
+    clean: ['public/dist/*.js'],
 
     mochaTest: {
       test: {
@@ -28,6 +30,11 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+        files: {
+          'public/dist/build.min.js': ['public/dist/build.js']
+        }
+      }
     },
 
     eslint: {
@@ -70,6 +77,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
