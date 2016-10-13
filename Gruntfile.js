@@ -45,6 +45,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      options: {
+        shorthandCompacting: false,
+        roundingPrecision: -1
+      },
+      target: {
+        files: {
+          'public/dist/main.css': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -66,6 +75,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push live master'
       }
     },
   });
@@ -95,23 +105,37 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'concat',
-    'uglify'
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
+      grunt.task.run(['shell']);
       // add your production server task here
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
+  grunt.registerTask('deploy', function(n) {
     // add your deploy tasks here
-    'eslint',
-    'build',
-    'nodemon'
-  ]);
+    if (grunt.option('prod')) {
+      grunt.task.run([
+        'eslint',
+        'test',
+        'build',
+        'server-dev'
+      ]);
+    } else {
+      grunt.task.run([
+        'eslint',
+        'test',
+        'build',
+        'server-dev'
+      ]);
+    }
+  });
 
 
 };
