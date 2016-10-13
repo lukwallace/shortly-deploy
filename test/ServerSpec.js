@@ -179,6 +179,7 @@ describe('', function() {
           'password': 'Svnh' })
         .expect(302)
         .expect(function() {
+          console.log('passed 302');
           User.findOne({'username': 'Svnh'})
             .exec(function(err, user) {
               expect(user.username).to.equal('Svnh');

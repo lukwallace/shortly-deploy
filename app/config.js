@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/test');
+
 
 // var db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'connection error:'));
@@ -7,30 +7,12 @@ var mongoose = require('mongoose');
 //   console.log('connected!');
 // });
 
-var Schema = mongoose.Schema;
+mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+module.exports = db;
 
-exports.connection = mongoose.connection;
 
-exports.linkSchema = new Schema ({
-  url: String,
-  baseUrl: String,
-  code: String,
-  title: String,
-  visits: Number
-}, {
-  timestamps: {
-    createdAt: 'created_at'
-  }
-});
-
-exports.userSchema = new Schema ({
-  username: {type: String, unique: true},
-  password: String,
-}, {
-  timestamps: {
-    createdAt: 'created_at'
-  }
-});
 
 // var path = require('path');
 // var knex = require('knex')({

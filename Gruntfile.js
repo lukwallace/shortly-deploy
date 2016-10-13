@@ -3,13 +3,14 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-      options: {
-        separator: ';',
-      },
-      dist: {
-        src: ['public/client/**/*.js'],
+      clientjs: {
+        src: ['public/client/*.js'],
         dest: 'public/dist/build.js',
       },
+      libjs: {
+        src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
+        dest: 'public/dist/libbuild.js'
+      }
     },
 
     clean: ['public/dist/*.js'],
@@ -32,7 +33,8 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          'public/dist/build.min.js': ['public/dist/build.js']
+          'public/dist/build.min.js': ['public/dist/build.js'],
+          'public/dist/libbuild.min.js': ['public/dist/libbuild.js']
         }
       }
     },
@@ -76,7 +78,11 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        command: 'git push live master'
+        command: [
+          'git add .',
+          'git commit -m "commiting to server"',
+          'git push live master'
+        ].join('&&')
       }
     },
   });
