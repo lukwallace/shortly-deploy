@@ -2,6 +2,7 @@ var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 var Schema = mongoose.Schema;
 
@@ -26,10 +27,12 @@ userSchema.pre('save', function(next) {
 userSchema.methods.comparePassword = function (attemptedPassword, callback) {
   var context = this;
   bcrypt.compare(attemptedPassword, context.password, function(err, isMatch) {
-    callback(isMatch);
+    console.log('was it a match?', isMatch);
+    callback(err, isMatch);
   });
 };
 
+userSchema.methods.pCompare = Promise.promisify(userSchema.methods.comparePassword);
 
 
 var User = mongoose.model('User', userSchema);

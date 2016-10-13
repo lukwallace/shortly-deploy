@@ -1,8 +1,11 @@
 var db = require('../config');
 var crypto = require('crypto');
+var Promise = require('bluebird');
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 var Schema = mongoose.Schema;
+
 
 var linkSchema = new Schema ({
   url: String,
